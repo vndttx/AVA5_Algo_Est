@@ -3,83 +3,104 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] var0) {
-        Scanner var1 = new Scanner(System.in);
-        ArrayList var2 = new ArrayList();
-
-        int var3;
+    public static void main(String[] listaDeProvas) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList dadosProva = new ArrayList();
+        ArrayList dadosParticipante = new ArrayList();
+        int opcaoEscolhida;
         do {
             System.out.println("\n=== SISTEMA DE RESERVA PARA CORREDORES ===");
             System.out.println("1 - Cadastrar Prova");
-            System.out.println("2 - Realizar inscrição");
-            System.out.println("3 - Consultar Informações da Prova");
+            System.out.println("2 - Realizar sua Inscrição");
+            System.out.println("3 - Consultar Informacoes da Prova");
+            System.out.println("4 - Consultar Informacoes de um Participante");
             System.out.println("0 - Sair");
-            System.out.print("Escolha uma opção: ");
-            var3 = var1.nextInt();
-            var1.nextLine();
-            switch (var3) {
+            System.out.print("Escolha uma opcao: ");
+            opcaoEscolhida = scanner.nextInt();
+            scanner.nextLine();
+            switch (opcaoEscolhida) {
                 case 0:
                     System.out.println("Encerrando o sistema. Até logo!");
                     break;
                 case 1:
                     System.out.print("Nome da Prova: ");
-                    String var4 = var1.nextLine();
+                    String provaNome = scanner.nextLine();
                     System.out.print("Data da prova: ");
-                    String var5 = var1.nextLine();
+                    String provaData = scanner.nextLine();
                     System.out.print("Hora da prova: ");
-                    String var6 = var1.nextLine();
+                    String provaHora = scanner.nextLine();
                     System.out.print("Local de partida: ");
-                    String var7 = var1.nextLine();
+                    String provaLocal = scanner.nextLine();
                     System.out.println("Quilometragem da prova: ");
-                    int var8 = var1.nextInt();
-                    System.out.print("Número Total de Vagas: ");
-                    int var9 = var1.nextInt();
-                    var1.nextLine();
-                    var2.add(new Corrida(var4, var5, var6, var7, var8, var9));
-                    System.out.println("Voo cadastrado com sucesso!");
+                    int provaKm = scanner.nextInt();
+                    System.out.print("Numero Total de Vagas: ");
+                    int provaVagas = scanner.nextInt();
+                    scanner.nextLine();
+                    dadosProva.add(new Prova(provaNome, provaData, provaHora, provaLocal, provaKm, provaVagas));
+                    System.out.println("Prova cadastrada com sucesso!");
                     break;
                 case 2:
                     System.out.print("Nome da Prova: ");
-                    String var10 = var1.nextLine();
-                    Corrida var11 = buscarCorrida(var2, var10);
-                    if (var11 != null) {
+                    String provaBuscada1 = scanner.nextLine();
+                    Prova provaInserida = buscarProva(dadosProva, provaBuscada1);
+                    if (provaInserida != null) {
                         System.out.print("Nome do participante: ");
-                        String var15 = var1.nextLine();
-                        System.out.print("CPF: ");
-                        String var16 = var1.nextLine();
+                        String participanteNome = scanner.nextLine();
+                        System.out.print("CPF (apenas numeros): ");
+                        String participanteCPF = scanner.nextLine();
                         System.out.print("Telefone: ");
-                        String var13 = var1.nextLine();
-                        Prova var14 = new Prova(var15, var16, var13);
-                        var11.reservarLugar(var14);
+                        String participanteTelefone = scanner.nextLine();
+                        dadosParticipante.add(new Participante(participanteNome, participanteCPF, participanteTelefone));
+                        System.out.println("Cadastro realizado com sucesso.");
                     } else {
                         System.out.println("Prova não encontrada.");
                     }
                     break;
                 case 3:
                     System.out.print("Nome da Prova: ");
-                    String var12 = var1.nextLine();
-                    Corrida var13 = buscarCorrida(var2, var12);
-                    if (var13 != null) {
-                        var13.exibirInformacoes();
+                    String provaBuscada2 = scanner.nextLine();
+                    Prova provaBuscar = buscarProva(dadosProva, provaBuscada2);
+                    if (provaBuscar != null) {
+                        provaBuscar.exibirInformacoes();
                     } else {
                         System.out.println("Prova não encontrada.");
                     }
                     break;
+                case 4:
+                    System.out.print("CPF (apenas numeros): ");
+                    String cpfBuscado = scanner.nextLine();
+                    Participante cpfBuscar = buscarParticipante(dadosParticipante, cpfBuscado);
+                    if (cpfBuscar != null) {
+                        cpfBuscar.mostrarParticipante();
+                    } else {
+                        System.out.println("Participante não encontrado.");
+                    }
+                    break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
-            }//meu case 4 vai ser a remoção de um participante, usando queue talvez
-        } while(var3 != 0);
+            }
+        } while(opcaoEscolhida != 0);
 
-        var1.close();
+        scanner.close();
     }
-
-    private static Corrida buscarCorrida(List<Corrida> var0, String var1) {
-        for(Corrida var3 : var0) {
-            if (var3.getNomeCorrida().equals(var1)) {
-                return var3;
+    //puxa o metodo buscarProva da classe Prova
+    private static Prova buscarProva(List<Prova> provaList, String provaNome) {
+        for(Prova provaAtual : provaList) {
+            if (provaAtual.getNomeProva().equals(provaNome)) {
+                return provaAtual;
             }
         }
 
         return null;
+    }
+    //puxa o metodo buscarParticipante da classe Participante
+    private static Participante buscarParticipante(List<Participante> participanteList, String cpfBuscado) {
+        for(Participante participanteAtual : participanteList) {
+            if (participanteAtual.getCPF().equals(cpfBuscado)) {
+                return participanteAtual;
+            }
+        }
+
+          return null;
     }
 }
