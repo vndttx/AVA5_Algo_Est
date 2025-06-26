@@ -3,26 +3,20 @@ import java.util.List;
 
 class Participante {
     private String nome;
-    private String CPF;
+    private String cpf;
     private String telefone;
 
-    public Participante(String participanteNome, String participanteCPF, String participanteTelefone) {
-        this.nome = participanteNome;
-        this.CPF = participanteCPF;
-        this.telefone = participanteTelefone;
+    public Participante(String nome, String cpf, String telefone) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
     }
 
-    public String getNome() {
-        return this.nome;
-    }
     public String getCPF() {
-        return this.CPF;
+        return cpf;
     }
 
     public void mostrarParticipante() {
-        System.out.println("\n=== Informacoes do Participante requisitado ===");
-        System.out.println("Nome do(a) participante: " + this.nome);
-        System.out.println("CPF do(a) participante: " + this.CPF);
-        System.out.println("Telefone do(a) participante: " + this.telefone);
+        System.out.println("Nome: " + this.nome + ", CPF: " + this.cpf + ", Telefone: " + this.telefone);
     }
 }
